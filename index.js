@@ -1,13 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-const pool = require("./config");
+const {pool} = require("./config");
 
-const app = express();
+const app = express()
 
-app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(cors())
 
-const home = (request, response) => response.send('Home Route');
+const home = (request, response) => response.send('Home Route Horses');
 
 //GETY
 
