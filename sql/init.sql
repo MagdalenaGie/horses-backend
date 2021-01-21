@@ -1,6 +1,4 @@
 CREATE SCHEMA stadnina;
-
-
 CREATE TABLE stadnina.kontuzja (
                 id_kontuzja SERIAL NOT NULL,
                 opis VARCHAR NOT NULL,
@@ -134,9 +132,9 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE stadnina.Lekcja_para ADD CONSTRAINT jezdziec_lekcja_para_fk
-FOREIGN KEY (id_jezdziec)
-REFERENCES stadnina.Jezdziec (id_jezdziec)
+ALTER TABLE stadnina.Lekcja_para ADD CONSTRAINT wlasciciel_lekcja_para_fk
+FOREIGN KEY (id_wlasciciel)
+REFERENCES stadnina.wlasciciel (id_wlasciciel)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;

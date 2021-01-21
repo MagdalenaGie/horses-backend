@@ -1,3 +1,4 @@
+SET SEARCH_PATH TO stadnina;
 INSERT INTO Stadnina_koni(nazwa, lokalizacja) VALUES
 ('OJ Kasztanka', 'Parkoszowice');
 
