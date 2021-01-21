@@ -444,5 +444,5 @@ app
   .delete('/konie', deleteHorse)
 
 app.listen(process.env.PORT || 5000, () => {
-    console.log("server has started on port 5000");
+    console.log("server listening");
   });
