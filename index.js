@@ -368,6 +368,8 @@ const deleteHorse = (request, response) => {
 
   pool.query('DELETE FROM stadnina.kon WHERE id_kon=$1', [id], (error, results) => {
     if (error) {
+      console.log(error);
+      console.log(error.message);
       throw error
     }
     response.status(200).send(`Horse deleted with ID: ${id}`)
@@ -443,7 +445,7 @@ app
   //DELETE endpoint
   .delete('/pary/:idkon/:idwlasciciel/:idlekcja', deletePair)
   .delete('/kontuzje/:idkon/:idkontuzja', deleteInjury)
-  .delete('/konie', deleteHorse)
+  .delete('/konie/:id', deleteHorse)
 
 app.listen(process.env.PORT || 5000, () => {
     console.log("server listening");
