@@ -1,3 +1,4 @@
+SET SEARCH_PATH TO stadnina;
 -- DODAWANIE KONI --
 CREATE OR REPLACE FUNCTION sprawdz_miejsce_w_stajni() RETURNS TRIGGER AS '
 DECLARE
@@ -7,10 +8,10 @@ BEGIN
     max = (SELECT s.ilosc_boksow FROM stadnina.stajnia s WHERE s.id_stajnia = NEW.id_stajnia);
     suma = (SELECT count(*) FROM stadnina.kon k WHERE k.id_stajnia = NEW.id_stajnia);
     IF suma < max THEN
-        RAISE NOTICE 'Ok, miesci sie w limicie';
+        RAISE NOTICE ''Ok, miesci sie w limicie'';
         RETURN NEW;
     ELSE
-        RAISE NOTICE 'Niestety, kon nie miesci sie w limicie - wybierz inna stajnie';
+        RAISE NOTICE ''Niestety, kon nie miesci sie w limicie - wybierz inna stajnie'';
         RETURN NULL;
     END IF;
 end;
@@ -27,7 +28,7 @@ BEGIN
     FOR lekcja IN (SELECT l.dzien, l.godzina FROM stadnina.lekcja_jazdy l WHERE l.dzien = NEW.dzien)
     LOOP
         IF lekcja.godzina = NEW.godzina THEN
-            RAISE NOTICE 'Jest juz lekcja w tym terminie';
+            RAISE NOTICE ''Jest juz lekcja w tym terminie'';
             RETURN NULL;
         END IF;
     END LOOP;
@@ -47,15 +48,15 @@ BEGIN
     FOR para IN (SELECT p.id_wlasciciel, p.id_kon, p.id_lekcja FROM stadnina.lekcja_para p WHERE p.id_lekcja = NEW.id_lekcja)
     LOOP
         IF para.id_wlasciciel = NEW.id_wlasciciel THEN
-            RAISE NOTICE 'Ten jezdziec jest juz zapisany na te zajecia!';
+            RAISE NOTICE ''Ten jezdziec jest juz zapisany na te zajecia!'';
             RETURN NULL;
         ELSIF para.id_kon = NEW.id_kon THEN
-            RAISE NOTICE 'Ten kon jest juz zapisany na te zajecia z innym jezdzcem!';
+            RAISE NOTICE ''Ten kon jest juz zapisany na te zajecia z innym jezdzcem!'';
             RETURN NULL;
         END IF;
     END LOOP;
     IF (SELECT COUNT(*) FROM stadnina.kon_kontuzja k WHERE k.id_kon = NEW.id_kon) > 0 THEN
-        RAISE NOTICE 'Ten kon jest kontuzjowany - nie mozna go zapisac na zajecia!';
+        RAISE NOTICE ''Ten kon jest kontuzjowany - nie mozna go zapisac na zajecia!'';
         RETURN NULL;
     END IF;
 
@@ -72,11 +73,11 @@ CREATE OR REPLACE FUNCTION sprawdz_limit_zapisu() RETURNS TRIGGER AS '
 DECLARE
     para record;
 BEGIN
-    IF (SELECT l.opis FROM stadnina.lekcja_jazdy l WHERE l.id_lekcja = NEW.id_lekcja) = 'trening indywidualny' THEN
-        RAISE NOTICE 'To trening indywidualny - nie moze sie zapsac wiecej niz 1 osoba';
+    IF (SELECT l.opis FROM stadnina.lekcja_jazdy l WHERE l.id_lekcja = NEW.id_lekcja) = ''trening indywidualny'' THEN
+        RAISE NOTICE ''To trening indywidualny - nie moze sie zapsac wiecej niz 1 osoba'';
         RETURN NULL;
     ELSIF (SELECT COUNT(*) FROM stadnina.lekcja_para WHERE id_lekcja = NEW.id_lekcja) > 4 THEN
-        RAISE NOTICE 'Na ten trening jest juz zapisane 5 osob, limiit uczestnikow zostal osiagniety';
+        RAISE NOTICE ''Na ten trening jest juz zapisane 5 osob, limiit uczestnikow zostal osiagniety'';
         RETURN NULL;
     END IF;
     RETURN NEW;
@@ -116,8 +117,6 @@ as
         RETURN OLD;
     END;
 $$;
-
-alter function wykwateruj_konia() owner to api_user;
 
 create TRIGGER usun_konia BEFORE DELETE ON stadnina.kon FOR EACH ROW EXECUTE PROCEDURE wykwateruj_konia();
 --DELETE FROM kon where kon.imie='Dzazira';
