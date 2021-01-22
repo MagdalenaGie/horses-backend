@@ -14,7 +14,8 @@ const home = (request, response) => response.send('Home Route Horses');
 //GETY
 
 const getHorses = (request, response) => {
-  const queryStr = 'SELECT k.imie, k.rasa, k.id_kon, k.data_ur, (SELECT w.imie FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel) AS w_imie, (SELECT w.nazwisko FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel), (SELECT w.telefon FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel) FROM stadnina.kon k;'
+  //const queryStr = 'SELECT k.imie, k.rasa, k.id_kon, k.data_ur, (SELECT w.imie FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel) AS w_imie, (SELECT w.nazwisko FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel), (SELECT w.telefon FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel) FROM stadnina.kon k;'
+  const queryStr = 'SELECT * FROM stadnina.kon_info'
   pool.query(queryStr, (error, results) => {
     if (error) {
       throw error
@@ -61,15 +62,14 @@ const getHorsesInjuries = (request, response) => {
 
 const getHorseInjuries = (request, response) => {
   const id = parseInt(request.params.id);
-
-  const queryInjuries=`select
-  (SELECT k.opis FROM stadnina.kontuzja k WHERE k.id_kontuzja = kk.id_kontuzja) AS opis_urazu,
-  (SELECT w.imie FROM stadnina.weterynarz w WHERE w.id_weterynarz = kk.id_weterynarz) AS w_imie,
-  (SELECT w.nazwisko FROM stadnina.weterynarz w WHERE w.id_weterynarz = kk.id_weterynarz) AS w_nazw,
-  kk.data_urazu,
-  kk.id_kontuzja
-  from stadnina.kon_kontuzja kk where kk.id_kon=$1;`
-
+  // const queryInjuries=`select
+  // (SELECT k.opis FROM stadnina.kontuzja k WHERE k.id_kontuzja = kk.id_kontuzja) AS opis_urazu,
+  // (SELECT w.imie FROM stadnina.weterynarz w WHERE w.id_weterynarz = kk.id_weterynarz) AS w_imie,
+  // (SELECT w.nazwisko FROM stadnina.weterynarz w WHERE w.id_weterynarz = kk.id_weterynarz) AS w_nazw,
+  // kk.data_urazu,
+  // kk.id_kontuzja
+  // from stadnina.kon_kontuzja kk where kk.id_kon=$1;`
+  const queryInjuries='SELECT * FROM stadnina.kon_kontuzja_info WHERE id_kon = $1;'
   pool.query(queryInjuries, [id], (error, results) => {
     if (error) {
       throw error
@@ -97,7 +97,8 @@ const getStabbles = (request, response) => {
 }
 
 const getLessons = (request, response) => {
-  const queryStr = 'SELECT * , (SELECT i.imie FROM stadnina.instruktor i WHERE i.id_instruktor=j.id_instruktor) AS ins_imie, (SELECT i.nazwisko FROM stadnina.instruktor i WHERE i.id_instruktor=j.id_instruktor) AS ins_nazw FROM stadnina.lekcja_jazdy j;';
+  //const queryStr = 'SELECT * , (SELECT i.imie FROM stadnina.instruktor i WHERE i.id_instruktor=j.id_instruktor) AS ins_imie, (SELECT i.nazwisko FROM stadnina.instruktor i WHERE i.id_instruktor=j.id_instruktor) AS ins_nazw FROM stadnina.lekcja_jazdy j;';
+  const queryStr = 'SELECT * FROM stadnina.lekcja_info;'
   pool.query(queryStr, (error, results) => {
     if (error) {
       throw error
@@ -128,7 +129,8 @@ const getFarriers = (request, response) => {
 
 const getLessonParticipantsByLessonId = (request, response) => {
   const id = parseInt(request.params.id);
-  const queryStr = 'SELECT (SELECT w.imie FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=p.id_wlasciciel) AS j_im, (SELECT w.nazwisko FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=p.id_wlasciciel) AS j_nzw, (SELECT k.imie from stadnina.kon k WHERE k.id_kon=p.id_kon) AS k_im from stadnina.lekcja_para p WHERE p.id_lekcja = $1;';
+  //const queryStr = 'SELECT (SELECT w.imie FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=p.id_wlasciciel) AS j_im, (SELECT w.nazwisko FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=p.id_wlasciciel) AS j_nzw, (SELECT k.imie from stadnina.kon k WHERE k.id_kon=p.id_kon) AS k_im from stadnina.lekcja_para p WHERE p.id_lekcja = $1;';
+  const queryStr = 'SELECT * FROM stadnina.uczestnicy_zajec where id_lekcja = $1;'
   pool.query(queryStr, [id], (error, results) => {
     if (error) {
       throw error
@@ -150,7 +152,8 @@ const getHorseByIdKon = (request, response) => {
 
 const getHorsesByIdWlasciciel = (request, response) => {
     const id = parseInt(request.params.id)
-    const queryStr = 'SELECT k.imie, k.rasa, k.id_kon, k.data_ur, (SELECT w.imie FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel) AS w_imie, (SELECT w.nazwisko FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel), (SELECT w.telefon FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel) FROM stadnina.kon k WHERE id_wlasciciel = $1';
+    //const queryStr = 'SELECT k.imie, k.rasa, k.id_kon, k.data_ur, (SELECT w.imie FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel) AS w_imie, (SELECT w.nazwisko FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel), (SELECT w.telefon FROM stadnina.wlasciciel w WHERE w.id_wlasciciel=k.id_wlasciciel) FROM stadnina.kon k WHERE id_wlasciciel = $1';
+    const queryStr = 'SELECT * FROM stadnina.konie_wlasciciela_info WHERE id_wlasciciel = $1;'
     pool.query(queryStr, [id], (error, results) => {
       if (error) {
         throw error
@@ -183,11 +186,10 @@ const getPass = (request, response) => {
 
 const getHorseLessons = (request, response) => {
   const id = parseInt(request.params.id)
-
-  const queryLessons=`SELECT
-  dzien, godzina, opis, imie, nazwisko, lp.id_lekcja, cena
-  FROM stadnina.lekcja_para lp JOIN stadnina.lekcja_jazdy lj on lp.id_lekcja = lj.id_lekcja JOIN stadnina.instruktor i on lj.id_instruktor = i.id_instruktor WHERE id_kon = $1;`
-  
+  // const queryLessons=`SELECT
+  // dzien, godzina, opis, imie, nazwisko, lp.id_lekcja, cena
+  // FROM stadnina.lekcja_para lp JOIN stadnina.lekcja_jazdy lj on lp.id_lekcja = lj.id_lekcja JOIN stadnina.instruktor i on lj.id_instruktor = i.id_instruktor WHERE id_kon = $1;`
+  const queryLessons='SELECT * FROM stadnina.lekcje_konia_info WHERE id_kon = $1;'
   pool.query(queryLessons, [id], (error, results) => {
     if (error) {
       console.log(error.message)

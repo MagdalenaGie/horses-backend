@@ -57,7 +57,7 @@ CREATE VIEW konie_wlasciciela_info AS
 
 -- SELECT * FROM konie_wlasciciela_info WHERE id_wlasciciel = 3;
 
-CREATE VIEW lekcja_uczestnicy_info AS
+CREATE VIEW lekcje_konia_info AS
     SELECT
         dzien,
         godzina,
@@ -69,4 +69,4 @@ CREATE VIEW lekcja_uczestnicy_info AS
         cena
     FROM stadnina.lekcja_para lp JOIN stadnina.lekcja_jazdy lj ON lp.id_lekcja = lj.id_lekcja JOIN stadnina.instruktor i ON lj.id_instruktor = i.id_instruktor;
 
--- SELECT * FROM lekcja_uczestnicy_info WHERE id_kon = 3;
+-- SELECT * FROM lekcje_konia_info WHERE id_kon = 3;
