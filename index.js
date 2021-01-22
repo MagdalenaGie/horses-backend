@@ -18,7 +18,7 @@ const getHorses = (request, response) => {
   const queryStr = 'SELECT * FROM stadnina.kon_info'
   pool.query(queryStr, (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -27,7 +27,7 @@ const getHorses = (request, response) => {
 const getOwners = (request, response) => {
   pool.query('SELECT * FROM stadnina.wlasciciel', (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -36,7 +36,7 @@ const getOwners = (request, response) => {
 const getWet = (request, response) => {
   pool.query('SELECT * FROM stadnina.weterynarz', (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -45,7 +45,7 @@ const getWet = (request, response) => {
 const getInjuryTypes = (request, response) => {
   pool.query('SELECT * FROM stadnina.kontuzja', (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -54,7 +54,7 @@ const getInjuryTypes = (request, response) => {
 const getHorsesInjuries = (request, response) => {
   pool.query('SELECT * FROM stadnina.kon_kontuzja', (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -72,7 +72,7 @@ const getHorseInjuries = (request, response) => {
   const queryInjuries='SELECT * FROM stadnina.kon_kontuzja_info WHERE id_kon = $1;'
   pool.query(queryInjuries, [id], (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -81,7 +81,7 @@ const getHorseInjuries = (request, response) => {
 const getWorkers = (request, response) => {
   pool.query('SELECT * FROM stadnina.stajenny', (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -90,7 +90,7 @@ const getWorkers = (request, response) => {
 const getStabbles = (request, response) => {
   pool.query('SELECT * FROM stadnina.stajnia', (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -101,7 +101,7 @@ const getLessons = (request, response) => {
   const queryStr = 'SELECT * FROM stadnina.lekcja_info;'
   pool.query(queryStr, (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -111,7 +111,7 @@ const getInstructors = (request, response) => {
   const queryStr = 'SELECT * FROM stadnina.instruktor;';
   pool.query(queryStr, (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -121,7 +121,7 @@ const getFarriers = (request, response) => {
   const queryStr = 'SELECT * FROM stadnina.kowal;';
   pool.query(queryStr, (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -133,7 +133,7 @@ const getLessonParticipantsByLessonId = (request, response) => {
   const queryStr = 'SELECT * FROM stadnina.uczestnicy_zajec where id_lekcja = $1;'
   pool.query(queryStr, [id], (error, results) => {
     if (error) {
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -144,7 +144,7 @@ const getHorseByIdKon = (request, response) => {
   
     pool.query('SELECT * FROM stadnina.kon WHERE id_kon = $1', [id], (error, results) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       response.status(200).json(results.rows)
     })
@@ -156,7 +156,7 @@ const getHorsesByIdWlasciciel = (request, response) => {
     const queryStr = 'SELECT * FROM stadnina.konie_wlasciciela_info WHERE id_wlasciciel = $1;'
     pool.query(queryStr, [id], (error, results) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       response.status(200).json(results.rows)
     })
@@ -178,7 +178,7 @@ const getPass = (request, response) => {
   
     pool.query('SELECT w.pass, w.id_wlasciciel FROM stadnina.wlasciciel w WHERE w.username = $1', [username], (error, results) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       response.status(200).json(results.rows)
     })
@@ -193,7 +193,7 @@ const getHorseLessons = (request, response) => {
   pool.query(queryLessons, [id], (error, results) => {
     if (error) {
       console.log(error.message)
-      throw error
+      response.status(409).json({status: 'failed', message: 'Request failed'})
     }
     response.status(200).json(results.rows)
   })
@@ -209,7 +209,7 @@ const addHorse = (request, response) => {
     [id_stajnia, id_wlasciciel, imie, rasa, data_ur, id_kowal],
     (error, result) => {
       if (error) {
-        response.status(201).json({status: 'failed', message: 'Horse cannot be added, this stabble is full - please choose different one.'})
+        response.status(409).json({status: 'failed', message: 'Horse cannot be added, this stabble is full - please choose different one.'})
         throw error
       }
       if(result.rowCount>0){
@@ -229,7 +229,7 @@ const addOwner = (request, response) => {
     [imie, nazwisko, telefon, username, pass],
     (error, result) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       
       if(result.rowCount>0){
@@ -248,7 +248,7 @@ const addWorker = (request, response) => {
     [imie, nazwisko],
     (error, result) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       console.log(result);
       response.status(201).json({status: 'success', message: 'Stajenny added.', result: result.rows[0]})
@@ -263,7 +263,7 @@ const addInstructor = (request, response) => {
     [imie, nazwisko],
     (error, result) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       response.status(201).json({status: 'success', message: 'Instruktor added.', result: result.rows[0]})
     }
@@ -277,7 +277,7 @@ const addInjury = (request, response) => {
     [id_kon, id_weterynarz, id_kontuzja, data_urazu],
     (error, result) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       response.status(201).json({status: 'success', message: 'Injury reported.', result: result.rows[0]})
     }
@@ -291,7 +291,7 @@ const addInjuryType = (request, response) => {
     [opis],
     (error, result) => {
       if (error) {
-        throw error
+        vresponse.status(409).json({status: 'failed', message: 'Request failed'})
       }
       response.status(201).json({status: 'success', message: 'New type of kontuzja added.', result: result.rows[0]})
     }
@@ -305,7 +305,7 @@ const addLesson = (request, response) => {
     [id_instruktor, dzien, cena, godzina, opis],
     (error, result) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       if(result.rowCount>0){
         response.status(201).json({status: 'success', message: 'Lekcja added.', result: result.rows[0]})
@@ -324,7 +324,7 @@ const addPair = (request, response) => {
     [id_wlasciciel, id_kon, id_lekcja],
     (error, result) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       if(result.rowCount > 0 ){
         response.status(201).json({status: 'success', message: 'Para added.', result: result.rows[0]})
@@ -342,7 +342,7 @@ const addWet = (request, response) => {
     [imie, nazwisko, cena_wizyty, telefon],
     (error, result) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       response.status(201).json({status: 'success', message: 'Weterynarz added.', result: result.rows[0]})
     }
@@ -356,7 +356,7 @@ const addFarrier = (request, response) => {
     [imie, nazwisko, cena_uslugi, co_ile_tygodni],
     (error, result) => {
       if (error) {
-        throw error
+        response.status(409).json({status: 'failed', message: 'Request failed'})
       }
       response.status(201).json({status: 'success', message: 'Kowal added.', result: result.rows[0]})
     }
