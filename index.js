@@ -411,7 +411,7 @@ const zmienHaslo = (request, response) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
         }
-        response.status(201).json({ status: 'success', message: 'Password succesfully changed'})
+        response.status(201).json({ status: 'success', message: 'Password succesfully changed', results: results.rows[0]})
     })
 }
 
@@ -421,23 +421,23 @@ const zmienTerminLekcji = (request, response) => {
     pool.query('UPDATE stadnina.lekcja_jazdy SET dzien=$1, godzina=$2 WHERE id_lekcja=$3 returning *', 
     [dzien, godzina, id], 
     (error, results) => {
-        console.log(results);
-        console.log(error);
         if (error) {
-            response.status(409).json({ status: 'failed', message: 'Request failed' })
+            response.status(409).json({ status: 'failed', message: 'Request failed'})
         }
-        response.status(201).json({ status: 'success', message: 'Lesson succesfully changed'})
+        response.status(201).json({ status: 'success', message: 'Lesson succesfully changed', results: results.rows[0]})
     })
 }
 
 const zmienStajennego = (request, response) => {
     //const id = request.params.id;
     const {id_stajenny, id_stajnia} = request.body;
-    pool.query('UPDATE stadnina.stajnia SET id_stajenny=$1 WHERE id_stajnia=$2 returning *', [id_stajenny, id_stajnia], (error, results) => {
-        if (error) {
-            response.status(409).json({ status: 'failed', message: 'Request failed' })
-        }
-        response.status(201).json({ status: 'success', message: 'Stajenny succesfully changed'})
+    pool.query('UPDATE stadnina.stajnia SET id_stajenny=$1 WHERE id_stajnia=$2 returning *', 
+        [id_stajenny, id_stajnia], 
+        (error, results) => {
+            if (error) {
+                response.status(409).json({ status: 'failed', message: 'Request failed' })
+            }
+            response.status(201).json({ status: 'success', message: 'Stajenny succesfully changed', results: results.rows[0]})
     })
 }
 
