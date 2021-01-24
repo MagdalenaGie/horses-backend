@@ -81,7 +81,7 @@ const pobierzDaneStajennych = (request, response) => {
 }
 
 const pobierzListeStajni = (request, response) => {
-    pool.query('SELECT * FROM stadnina.stajnia', (error, results) => {
+    pool.query('SELECT * FROM stadnina.stajnia_info', (error, results) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
         }

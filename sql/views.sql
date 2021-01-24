@@ -70,3 +70,14 @@ CREATE VIEW lekcje_konia_info AS
     FROM stadnina.lekcja_para lp JOIN stadnina.lekcja_jazdy lj ON lp.id_lekcja = lj.id_lekcja JOIN stadnina.instruktor i ON lj.id_instruktor = i.id_instruktor;
 
 -- SELECT * FROM lekcje_konia_info WHERE id_kon = 3;
+
+CREATE VIEW stajnia_info AS
+    SELECT
+        id_stajnia,
+        id_stadnina,
+        opis,
+        ilosc_boksow,
+        w.id_stajenny,
+        imie,
+        nazwisko
+    FROM stadnina.stajnia s JOIN stadnina.stajenny w on w.id_stajenny=s.id_stajenny;
