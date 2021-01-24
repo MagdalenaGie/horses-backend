@@ -418,7 +418,7 @@ const zmienHaslo = (request, response) => {
 const zmienTerminLekcji = (request, response) => {
     const id = request.params.id;
     const {id_lekcja, godzina, dzien} = request.body;
-    pool.query('UPDATE stadnina.lekcja_jazdy SET dzien=$1 godzina=$2 WHERE id_lekcja=$3 returning *', 
+    pool.query('UPDATE stadnina.lekcja_jazdy SET dzien=$1, godzina=$2 WHERE id_lekcja=$3 returning *', 
     [dzien, godzina, id], 
     (error, results) => {
         console.log(results);
