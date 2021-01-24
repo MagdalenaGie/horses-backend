@@ -406,7 +406,9 @@ const usunLekcje = (request, response) => {
 //PUT - UPDATE
 const zmienHaslo = (request, response) => {
     const id = request.params.id;
-    const newPass = request.body;
+    const {newPass} = request.body;
+    console.log(newPass);
+    console.log(request.body);
     pool.query('UPDATE stadnina.wlasciciel SET pass=$1 WHERE id_wlasciciel=$2 returning *', [newPass, id], (error, results) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
