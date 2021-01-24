@@ -411,7 +411,7 @@ const zmienHaslo = (request, response) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
         }
-        response.status(201).json({ status: 'success', message: 'Password succesfully changed', result: results.rows[0] })
+        response.status(201).json({ status: 'success', message: 'Password succesfully changed'})
     })
 }
 
@@ -422,7 +422,10 @@ const zmienTerminLekcji = (request, response) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
         }
-        response.status(201).json({ status: 'success', message: 'Lesson succesfully changed', result: results.rows[0] })
+        if(results){
+            console.log(results);
+        }
+        response.status(201).json({ status: 'success', message: 'Lesson succesfully changed'})
     })
 }
 
@@ -433,7 +436,7 @@ const zmienStajennego = (request, response) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
         }
-        response.status(201).json({ status: 'success', message: 'Stajenny succesfully changed', result: results.rows[0] })
+        response.status(201).json({ status: 'success', message: 'Stajenny succesfully changed'})
     })
 }
 
