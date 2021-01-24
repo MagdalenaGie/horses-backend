@@ -120,3 +120,16 @@ $$;
 
 create TRIGGER usun_konia BEFORE DELETE ON stadnina.kon FOR EACH ROW EXECUTE PROCEDURE wykwateruj_konia();
 --DELETE FROM kon where kon.imie='Dzazira';
+
+--DELETE LESSON--
+create function usun_uczestnikow() returns trigger
+    language plpgsql
+as
+$$
+BEGIN
+        DELETE FROM stadnina.lekcja_para WHERE stadnina.lekcja_para.id_lekcja = OLD.id_lekcja;
+        RETURN OLD;
+    END;
+$$;
+
+create TRIGGER usun_lekcje BEFORE DELETE ON stadnina.lekcja_jazdy FOR EACH ROW EXECUTE PROCEDURE usun_uczestnikow();
