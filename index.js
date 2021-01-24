@@ -393,7 +393,7 @@ const usunKontuzje = (request, response) => {
 const usunLekcje = (request, response) => {
     const id = parseInt(request.params.id)
 
-    pool.query('DELETE FROM stadnina.lekcja_jazdy WHERE id_lekcja=$1', [id], (error, results) => {
+    pool.query('DELETE FROM stadnina.lekcja_jazdy WHERE id_lekcja=$1 ', [id], (error, results) => {
         if (error) {
             console.log(error);
             console.log(error.message);
@@ -407,7 +407,7 @@ const usunLekcje = (request, response) => {
 const zmienHaslo = (request, response) => {
     const id = request.params.id;
     const newPass = request.body;
-    pool.query('UPDATE stadnina.wlasciciel SET pass=$1 WHERE id_wlasciciel=$2', [newPass, id], (error, results) => {
+    pool.query('UPDATE stadnina.wlasciciel SET pass=$1 WHERE id_wlasciciel=$2 returning *', [newPass, id], (error, results) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
         }
@@ -418,7 +418,7 @@ const zmienHaslo = (request, response) => {
 const zmienTerminLekcji = (request, response) => {
     const id = request.params.id;
     const {id_lekcja, godzina, dzien} = request.body;
-    pool.query('UPDATE stadnina.lekcja_jazdy SET dzien=$1 godzina=$2 WHERE id_lekcja=$3', [dzien, godzina, id], (error, results) => {
+    pool.query('UPDATE stadnina.lekcja_jazdy SET dzien=$1 godzina=$2 WHERE id_lekcja=$3 returning *', [dzien, godzina, id], (error, results) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
         }
@@ -429,7 +429,7 @@ const zmienTerminLekcji = (request, response) => {
 const zmienStajennego = (request, response) => {
     //const id = request.params.id;
     const {id_stajenny, id_stajnia} = request.body;
-    pool.query('UPDATE stadnina.stajnia SET id_stajenny=$1 WHERE id_stajnia=$2', [id_stajenny, id_stajnia], (error, results) => {
+    pool.query('UPDATE stadnina.stajnia SET id_stajenny=$1 WHERE id_stajnia=$2 returning *', [id_stajenny, id_stajnia], (error, results) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: 'Request failed' })
         }
